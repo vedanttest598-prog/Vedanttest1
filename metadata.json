@@ -1,0 +1,6 @@
+{
+  "name": "CampusConnect",
+  "description": "Awwwards-caliber college event discovery platform for discovering festivals, hackathons, concerts, and campus culture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
