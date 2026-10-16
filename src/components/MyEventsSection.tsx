@@ -1,4 +1,4 @@
-import { ArrowUpRight, Trash2, Calendar, MapPin, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Trash2, Calendar, MapPin, BookmarkCheck } from 'lucide-react';
 import { CampusEvent } from '../types';
 
 interface MyEventsSectionProps {
@@ -25,13 +25,13 @@ export function MyEventsSection({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#171717]/60">
-              <span className="w-1.5 h-1.5 bg-[#7C3AED]" />
+              <BookmarkCheck className="w-3.5 h-3.5 text-[#7C3AED]" />
               <span>Personal Agenda</span>
               <span aria-hidden="true" className="text-[#171717]/30">/</span>
               <span>Saved Dispatches</span>
             </div>
 
-            <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-[#171717] uppercase leading-[0.95]">
+            <h2 className="font-headline text-4xl sm:text-6xl font-extrabold tracking-tight text-[#171717] uppercase leading-[0.92]">
               YOUR LINEUP.
             </h2>
 
@@ -42,7 +42,7 @@ export function MyEventsSection({
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="font-mono text-2xl font-bold text-[#141414]">
+              <span className="font-headline text-3xl font-extrabold text-[#141414] tabular-nums">
                 {registeredEvents.length}
               </span>
               <span className="text-xs font-mono text-[#171717]/60 block uppercase">
@@ -55,12 +55,12 @@ export function MyEventsSection({
         {/* Empty State */}
         {registeredEvents.length === 0 ? (
           <div className="border border-dashed border-[#171717]/25 p-12 sm:p-20 text-center space-y-6 max-w-2xl mx-auto bg-[#F5F3EE]/50">
-            <div className="w-16 h-16 mx-auto bg-[#141414] text-[#D8FF3E] flex items-center justify-center font-display text-2xl font-bold">
+            <div className="w-16 h-16 mx-auto bg-[#141414] text-[#D8FF3E] flex items-center justify-center font-headline text-2xl font-bold">
               ✳
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#171717]">
+              <h3 className="font-headline text-2xl sm:text-3xl font-bold text-[#171717]">
                 Your lineup is completely open.
               </h3>
               <p className="text-sm sm:text-base text-[#171717]/70 max-w-md mx-auto">
@@ -70,7 +70,7 @@ export function MyEventsSection({
 
             <button
               onClick={onExploreClick}
-              className="inline-flex items-center gap-2 bg-[#141414] text-[#F5F3EE] hover:bg-[#D8FF3E] hover:text-[#141414] px-7 py-3.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer shadow-md"
+              className="inline-flex items-center gap-2 bg-[#141414] text-[#F5F3EE] hover:bg-[#D8FF3E] hover:text-[#141414] px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer shadow-lg hover:-translate-y-0.5"
             >
               <span>BROWSE UPCOMING EVENTS</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -78,10 +78,10 @@ export function MyEventsSection({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {registeredEvents.map((event) => (
+            {registeredEvents.map((event, idx) => (
               <div
                 key={event.id}
-                className="group relative bg-[#F5F3EE] border border-[#171717]/15 p-5 flex flex-col justify-between space-y-4 hover:border-[#171717] transition-all duration-200"
+                className="group relative bg-[#F5F3EE] border border-[#171717]/15 p-5 flex flex-col justify-between space-y-4 hover:border-[#171717] transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="space-y-3">
                   {/* Image thumbnail and category */}
@@ -92,11 +92,14 @@ export function MyEventsSection({
                     <img
                       src={event.imageUrl}
                       alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter saturate-105"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-2 left-2 bg-[#141414] text-[#F5F3EE] font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
                       {event.category}
+                    </div>
+                    <div className="absolute top-2 right-2 text-[10px] font-mono text-white/80 bg-black/50 px-1.5 py-0.5">
+                      [{String(idx + 1).padStart(2, '0')}]
                     </div>
                   </div>
 
@@ -104,14 +107,14 @@ export function MyEventsSection({
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 text-[11px] font-mono text-[#171717]/60">
                       <Calendar className="w-3 h-3 text-[#7C3AED]" />
-                      <span>{event.date}</span>
+                      <span className="font-bold text-[#171717]">{event.date}</span>
                       <span aria-hidden="true">·</span>
                       <span>{event.startTime}</span>
                     </div>
 
                     <h4
                       onClick={() => onSelectEvent(event)}
-                      className="font-display text-lg font-bold text-[#171717] hover:text-[#7C3AED] transition-colors cursor-pointer leading-tight line-clamp-1"
+                      className="font-headline text-lg font-bold text-[#171717] hover:text-[#7C3AED] transition-colors cursor-pointer leading-tight line-clamp-1"
                     >
                       {event.title}
                     </h4>

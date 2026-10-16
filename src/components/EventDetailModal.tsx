@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { X, Calendar, Clock, MapPin, Users, Award, ShieldAlert, Check, Plus, Share2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { X, Calendar, Clock, MapPin, Users, Award, ShieldAlert, Check, Plus, Share2, CheckCheck } from 'lucide-react';
 import { CampusEvent } from '../types';
 
 interface EventDetailModalProps {
@@ -17,6 +17,8 @@ export function EventDetailModal({
   isRegistered,
   onToggleRegister,
 }: EventDetailModalProps) {
+  const [copiedShare, setCopiedShare] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -49,10 +51,16 @@ export function EventDetailModal({
       try {
         await navigator.share(shareData);
       } catch {
-        // user cancelled share
+        // user cancelled
       }
     } else {
-      await navigator.clipboard.writeText(`${event.title} — ${event.date} (${window.location.href})`);
+      try {
+        await navigator.clipboard.writeText(`${event.title} — ${event.date} (${window.location.href})`);
+        setCopiedShare(true);
+        setTimeout(() => setCopiedShare(false), 2400);
+      } catch {
+        // fallback
+      }
     }
   };
 
@@ -70,28 +78,38 @@ export function EventDetailModal({
       />
 
       {/* Modal Dialog Content */}
-      <div className="relative w-full max-w-3xl bg-[#F5F3EE] text-[#171717] border border-[#171717] shadow-2xl z-10 overflow-hidden my-auto max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-3xl bg-[#F5F3EE] text-[#171717] border-2 border-[#141414] shadow-2xl z-10 overflow-hidden my-auto max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
         {/* Top Control Bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#171717]/10 bg-white">
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#171717]/70">
-            <span className="w-2 h-2 bg-[#171717] rotate-45" />
-            <span>Event Dossier</span>
+            <span className="w-2.5 h-2.5 bg-[#171717] rotate-45" />
+            <span className="font-bold text-[#171717]">ARCHIVAL DOSSIER</span>
             <span aria-hidden="true" className="text-[#171717]/30">/</span>
-            <span className="font-bold text-[#171717]">{event.category}</span>
+            <span className="font-semibold text-[#7C3AED]">{event.category}</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={handleShare}
-              className="p-1.5 text-[#171717]/70 hover:text-[#171717] hover:bg-black/5 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono border border-[#171717]/20 hover:border-[#171717] text-[#171717] transition-colors cursor-pointer"
               title="Share event link"
               aria-label="Share event"
             >
-              <Share2 className="w-4 h-4" />
+              {copiedShare ? (
+                <>
+                  <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-emerald-700 font-bold">LINK COPIED</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-3.5 h-3.5" />
+                  <span>SHARE</span>
+                </>
+              )}
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 text-[#171717] hover:bg-[#141414] hover:text-[#F5F3EE] transition-colors cursor-pointer"
+              className="p-1.5 text-[#171717] hover:bg-[#141414] hover:text-[#F5F3EE] transition-colors cursor-pointer border border-[#171717]/20"
               aria-label="Close modal dialog"
             >
               <X className="w-5 h-5" />
@@ -106,11 +124,14 @@ export function EventDetailModal({
             <img
               src={event.imageUrl}
               alt={event.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover filter saturate-105"
               referrerPolicy="no-referrer"
             />
+            <div className="absolute top-3 left-3 bg-[#D8FF3E] text-[#141414] font-mono text-[10px] font-bold uppercase tracking-wider px-2.5 py-1">
+              {event.category}
+            </div>
             <div className="absolute bottom-3 left-3 bg-[#141414] text-[#F5F3EE] font-mono text-[10px] uppercase tracking-wider px-2.5 py-1">
-              Organized by: {event.organizer}
+              Presented by: {event.organizer}
             </div>
           </div>
 
@@ -118,11 +139,11 @@ export function EventDetailModal({
           <div className="space-y-2">
             <h2
               id="modal-event-title"
-              className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-[#171717] uppercase leading-tight"
+              className="font-headline text-2xl sm:text-4xl font-extrabold tracking-tight text-[#171717] uppercase leading-[1.05]"
             >
               {event.title}
             </h2>
-            <p className="font-display text-base sm:text-lg text-[#171717]/80 font-medium">
+            <p className="font-display text-base sm:text-lg text-[#171717]/85 font-medium">
               {event.tagline}
             </p>
           </div>
@@ -132,7 +153,7 @@ export function EventDetailModal({
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-[#7C3AED] shrink-0" />
               <div>
-                <span className="text-[#171717]/60 block text-[10px] uppercase">Date</span>
+                <span className="text-[#171717]/60 block text-[10px] uppercase font-medium">Date</span>
                 <span className="font-bold text-[#171717]">{event.date}</span>
               </div>
             </div>
@@ -140,7 +161,7 @@ export function EventDetailModal({
             <div className="flex items-center gap-3">
               <Clock className="w-4 h-4 text-[#7C3AED] shrink-0" />
               <div>
-                <span className="text-[#171717]/60 block text-[10px] uppercase">Schedule</span>
+                <span className="text-[#171717]/60 block text-[10px] uppercase font-medium">Schedule</span>
                 <span className="font-bold text-[#171717]">
                   {event.startTime} – {event.endTime}
                 </span>
@@ -150,7 +171,7 @@ export function EventDetailModal({
             <div className="flex items-center gap-3">
               <MapPin className="w-4 h-4 text-[#7C3AED] shrink-0" />
               <div>
-                <span className="text-[#171717]/60 block text-[10px] uppercase">Venue</span>
+                <span className="text-[#171717]/60 block text-[10px] uppercase font-medium">Venue</span>
                 <span className="font-bold text-[#171717]">{event.venue}</span>
               </div>
             </div>
@@ -158,7 +179,7 @@ export function EventDetailModal({
             <div className="flex items-center gap-3">
               <Users className="w-4 h-4 text-[#7C3AED] shrink-0" />
               <div>
-                <span className="text-[#171717]/60 block text-[10px] uppercase">Capacity</span>
+                <span className="text-[#171717]/60 block text-[10px] uppercase font-medium">Capacity</span>
                 <span className="font-bold text-[#171717]">
                   {event.capacity || 'Open Registration'}
                 </span>
@@ -168,16 +189,16 @@ export function EventDetailModal({
 
           {/* Full Narrative Description */}
           <div className="space-y-3">
-            <h4 className="font-display text-sm font-bold tracking-wider uppercase text-[#171717]">
-              About This Experience
+            <h4 className="font-headline text-sm font-bold tracking-wider uppercase text-[#171717]">
+              Curator's Statement
             </h4>
-            <p className="text-sm sm:text-base text-[#171717]/85 leading-relaxed whitespace-pre-line">
+            <p className="text-sm sm:text-base text-[#171717]/85 leading-relaxed whitespace-pre-line font-normal">
               {event.fullDescription}
             </p>
           </div>
 
           {/* Registration Deadline callout */}
-          <div className="flex items-center justify-between p-4 bg-[#141414] text-[#F5F3EE] text-xs font-mono">
+          <div className="flex items-center justify-between p-4 bg-[#141414] text-[#F5F3EE] text-xs font-mono border-l-4 border-[#D8FF3E]">
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4 text-[#D8FF3E]" />
               <span>RSVP DEADLINE:</span>
@@ -190,7 +211,7 @@ export function EventDetailModal({
           <div className="flex items-start gap-2.5 p-3.5 bg-black/5 text-[#171717]/70 text-xs border border-[#171717]/10">
             <ShieldAlert className="w-4 h-4 text-[#7C3AED] shrink-0 mt-0.5" />
             <p className="leading-snug">
-              <strong>Student Notice:</strong> This is a frontend demo discovery platform. Registering interest bookmarks the event into your local device lineup and does not issue an official bursary invoice.
+              <strong>Campus Notice:</strong> This is a frontend demo discovery platform. Registering interest bookmarks the event into your local device lineup and does not issue an official bursary invoice.
             </p>
           </div>
         </div>
@@ -201,14 +222,14 @@ export function EventDetailModal({
             {isRegistered ? (
               <span className="text-[#141414] font-bold">✓ Marked in your personal lineup</span>
             ) : (
-              <span>Available for all enrolled undergraduates and postgraduates</span>
+              <span>Open to all enrolled undergraduate and graduate students</span>
             )}
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={() => onToggleRegister(event)}
-              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer ${
+              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer ${
                 isRegistered
                   ? 'bg-[#141414] text-[#D8FF3E]'
                   : 'bg-[#141414] text-[#F5F3EE] hover:bg-[#D8FF3E] hover:text-[#141414]'
@@ -217,7 +238,7 @@ export function EventDetailModal({
               {isRegistered ? (
                 <>
                   <Check className="w-4 h-4 stroke-[3]" />
-                  <span>✓ INTERESTED</span>
+                  <span>✓ IN YOUR LINEUP</span>
                 </>
               ) : (
                 <>

@@ -35,12 +35,12 @@ export function Navbar({ registeredCount, onNavigateTo }: NavbarProps) {
         {/* Zone 1: Single text wordmark */}
         <button
           onClick={() => handleLinkClick('hero')}
-          className="group flex items-center gap-2.5 text-left focus-visible:outline-2 focus-visible:outline-[#171717] rounded-xs"
+          className="group flex items-center gap-2.5 text-left focus-visible:outline-2 focus-visible:outline-[#171717] rounded-xs cursor-pointer"
         >
           <span className="w-4 h-4 bg-[#141414] group-hover:bg-[#D8FF3E] transition-colors duration-200 flex items-center justify-center text-[10px] text-[#F5F3EE] group-hover:text-[#141414] font-bold">
             ✳
           </span>
-          <span className="font-display text-xl font-bold tracking-tight text-[#171717] uppercase">
+          <span className="font-headline text-xl font-bold tracking-tight text-[#171717] uppercase">
             CampusConnect
           </span>
         </button>

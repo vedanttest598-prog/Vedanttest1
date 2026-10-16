@@ -1,4 +1,4 @@
-import { ArrowUpRight, Compass, Heart } from 'lucide-react';
+import { ArrowUpRight, Compass } from 'lucide-react';
 
 interface FooterProps {
   onNavigateTo: (sectionId: string) => void;
@@ -17,7 +17,7 @@ export function Footer({ onNavigateTo }: FooterProps) {
           </div>
 
           <div className="space-y-4 max-w-3xl mx-auto">
-            <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter uppercase leading-[0.92]">
+            <h2 className="font-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter uppercase leading-[0.9]">
               MAKE MORE OF YOUR CAMPUS.
             </h2>
             <p className="font-display text-xl sm:text-2xl text-[#F5F3EE]/75 max-w-xl mx-auto">
@@ -28,7 +28,7 @@ export function Footer({ onNavigateTo }: FooterProps) {
           <div className="pt-2">
             <button
               onClick={() => onNavigateTo('discover')}
-              className="group inline-flex items-center gap-3 bg-[#D8FF3E] text-[#141414] hover:bg-white px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer shadow-xl"
+              className="group inline-flex items-center gap-3 bg-[#D8FF3E] text-[#141414] hover:bg-white px-9 py-4 text-xs font-bold tracking-widest uppercase transition-all duration-200 cursor-pointer shadow-xl hover:-translate-y-0.5"
             >
               <span>DISCOVER WHAT'S NEXT</span>
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -46,25 +46,25 @@ export function Footer({ onNavigateTo }: FooterProps) {
               <span className="w-4 h-4 bg-[#D8FF3E] flex items-center justify-center text-[10px] text-[#141414] font-bold">
                 ✳
               </span>
-              <span className="font-display text-2xl font-bold tracking-tight uppercase">
+              <span className="font-headline text-2xl font-bold tracking-tight uppercase">
                 CampusConnect
               </span>
             </div>
 
-            <p className="text-sm text-[#F5F3EE]/70 max-w-sm leading-relaxed">
+            <p className="text-sm text-[#F5F3EE]/70 max-w-sm leading-relaxed font-normal">
               The internet's coolest place to discover what's happening on campus. Connecting student builders, performers, athletes, and thinkers without notice-board chaos.
             </p>
 
             <div className="flex items-center gap-2 text-xs font-mono text-white/50 pt-2">
               <Compass className="w-3.5 h-3.5 text-[#D8FF3E]" />
-              <span>Campus Grid Coord: 42.3601° N, 71.0942° W</span>
+              <span>Campus Grid Coordinates: 42.3601° N, 71.0942° W</span>
             </div>
           </div>
 
           {/* Quick Nav Col */}
           <div className="md:col-span-3 space-y-3 font-mono text-xs">
             <div className="text-[#D8FF3E] uppercase font-bold tracking-wider">
-              Navigation
+              Directory Index
             </div>
             <ul className="space-y-2 text-[#F5F3EE]/75">
               <li>
@@ -107,11 +107,11 @@ export function Footer({ onNavigateTo }: FooterProps) {
             <div className="text-[#D8FF3E] uppercase font-bold tracking-wider">
               Campus Intelligence Protocol
             </div>
-            <p className="text-[#F5F3EE]/65 leading-relaxed">
-              Curated independently by university student collectives. Built for seamless discovery without social media spam or paywalled registration gates.
+            <p className="text-[#F5F3EE]/65 leading-relaxed font-normal">
+              Curated independently by university student collectives. Built for seamless discovery without social media spam, dead links, or paywalled registration gates.
             </p>
             <div className="pt-2 text-[11px] text-white/40">
-              Platform Status: All campus telemetry synchronized locally.
+              Platform Status: Local storage cache synchronized.
             </div>
           </div>
         </div>
